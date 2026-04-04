@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning - Khao Kho Trip 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest-green: #2D6A4F;
+            --mist-teal: #52B788;
+            --deep-forest: #1B4332;
+            --cloud-white: #F0FFF4;
+            --soft-green: #D8F3DC;
+            --mountain-dark: #2D3748;
+            --sunset-gold: #F59E0B;
+            --warm-orange: #ED8936;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F0FFF4 0%, #E6FFFA 50%, #F0FFF4 100%);
+            min-height: 100vh;
+            color: var(--mountain-dark);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 100%);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .navbar-brand {
+            color: var(--mist-teal);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 3px;
+        }
+
+        .navbar-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: 0.3s;
+            font-size: 0.85em;
+        }
+
+        .navbar-item:hover {
+            background: rgba(82, 183, 136, 0.2);
+            color: var(--mist-teal);
+        }
+
+        .navbar-item.active {
+            background: linear-gradient(135deg, var(--forest-green), var(--mist-teal));
+            color: white;
+            font-weight: bold;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 100%);
+                padding: 10px 0;
+            }
+            .navbar-menu.mobile-open { display: flex; }
+            .navbar-item {
+                padding: 12px 20px;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .menu-toggle { display: block; }
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 50%, var(--forest-green) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 1.8rem; }
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            color: var(--forest-green);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            border-bottom: 3px solid var(--mist-teal);
+            padding-bottom: 10px;
+        }
+
+        /* Checklist Styles */
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin-top: 4px;
+            accent-color: var(--forest-green);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checklist label {
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+
+        .checklist .category {
+            font-weight: 700;
+            color: var(--forest-green);
+            padding: 12px 0 4px;
+            border-bottom: none;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Budget Table */
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .budget-table th {
+            background: var(--soft-green);
+            color: var(--forest-green);
+            padding: 10px 15px;
+            text-align: left;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .budget-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95em;
+        }
+
+        .budget-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .budget-table .total-row {
+            background: var(--cloud-white);
+            font-weight: 700;
+        }
+
+        .budget-table .total-row td {
+            color: var(--forest-green);
+            font-size: 1.1em;
+            border-top: 2px solid var(--mist-teal);
+        }
+
+        .budget-note {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Progress bars */
+        .progress-item {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+
+        .progress-fill.green { background: var(--mist-teal); }
+        .progress-fill.yellow { background: var(--sunset-gold); }
+        .progress-fill.orange { background: var(--warm-orange); }
+
+        .highlight-box {
+            background: var(--soft-green);
+            border-left: 4px solid var(--forest-green);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+        }
+
+        .highlight-box strong {
+            color: var(--forest-green);
+        }
+
+        .note-box {
+            background: #FFFBEB;
+            border-left: 4px solid var(--sunset-gold);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+        }
+
+        .note-box strong {
+            color: #92400E;
+        }
+
+        /* Emergency card */
+        .emergency-card {
+            background: linear-gradient(135deg, #FEF2F2, #FFF);
+            border: 1px solid #FCA5A5;
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+        }
+
+        .emergency-card h2 {
+            color: #DC2626;
+            border-bottom-color: #FCA5A5;
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .emergency-item {
+            background: white;
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #FEE2E2;
+        }
+
+        .emergency-item .label {
+            font-size: 0.8em;
+            color: #DC2626;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .emergency-item .value {
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .footer {
+            background: var(--deep-forest);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">&#9968; Khao Kho 2026</a>
+            <button class="menu-toggle" onclick="toggleMobileMenu()">&#9776;</button>
+            <div class="navbar-menu" id="navMenu">
+                <a href="index.html" class="navbar-item">Home</a>
+                <a href="itinerary.html" class="navbar-item">Itinerary</a>
+                <a href="hotels.html" class="navbar-item">Hotels</a>
+                <a href="planning.html" class="navbar-item active">Planning</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>&#9989; Trip Planning</h1>
+        <p>Packing list, budget, and everything we need to prepare</p>
+    </div>
+
+    <div class="container">
+
+        <!-- Trip Readiness -->
+        <div class="card" style="margin-bottom: 25px;">
+            <h2>&#128200; Trip Readiness</h2>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Booking (Hotel)</span>
+                    <span>0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill orange" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Route Planning</span>
+                    <span>80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill green" style="width: 80%"></div>
+                </div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Packing</span>
+                    <span>0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill orange" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Budget Finalized</span>
+                    <span>20%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill yellow" style="width: 20%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pre-Trip Checklist & Packing -->
+        <div class="grid">
+            <div class="card">
+                <h2>&#128221; Pre-Trip Checklist</h2>
+                <ul class="checklist">
+                    <li class="category">Bookings</li>
+                    <li><input type="checkbox" id="c1"><label for="c1">Book Blue Sky Resort (duplex villa)</label></li>
+                    <li><input type="checkbox" id="c2"><label for="c2">Decide on midway stop (going / returning)</label></li>
+                    <li><input type="checkbox" id="c3"><label for="c3">Book midway hotel if needed</label></li>
+
+                    <li class="category">Vehicle</li>
+                    <li><input type="checkbox" id="c4"><label for="c4">Full tank of gas before departure</label></li>
+                    <li><input type="checkbox" id="c5"><label for="c5">Check tire pressure and spare tire</label></li>
+                    <li><input type="checkbox" id="c6"><label for="c6">Car service / oil check</label></li>
+                    <li><input type="checkbox" id="c7"><label for="c7">Car phone charger(s)</label></li>
+                    <li><input type="checkbox" id="c8"><label for="c8">Download offline maps (Google Maps)</label></li>
+
+                    <li class="category">Planning</li>
+                    <li><input type="checkbox" id="c9"><label for="c9">Confirm all 5 travelers' schedules</label></li>
+                    <li><input type="checkbox" id="c10"><label for="c10">Agree on budget per person</label></li>
+                    <li><input type="checkbox" id="c11"><label for="c11">Create group chat for trip coordination</label></li>
+                    <li><input type="checkbox" id="c12"><label for="c12">Share this website with the group</label></li>
+                    <li><input type="checkbox" id="c13"><label for="c13">Designate driver rotation</label></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>&#127890; Packing List</h2>
+                <ul class="checklist">
+                    <li class="category">Clothing (Hot days, cool nights)</li>
+                    <li><input type="checkbox" id="p1"><label for="p1">Light t-shirts / airy clothing</label></li>
+                    <li><input type="checkbox" id="p2"><label for="p2">Light jacket / hoodie (mountain evenings ~22&deg;C)</label></li>
+                    <li><input type="checkbox" id="p3"><label for="p3">Comfortable walking shoes</label></li>
+                    <li><input type="checkbox" id="p4"><label for="p4">Sandals / flip-flops</label></li>
+                    <li><input type="checkbox" id="p5"><label for="p5">Rain jacket / poncho</label></li>
+                    <li><input type="checkbox" id="p6"><label for="p6">Swimsuit (resort pool)</label></li>
+
+                    <li class="category">Essentials</li>
+                    <li><input type="checkbox" id="p7"><label for="p7">Sunscreen (SPF 50+)</label></li>
+                    <li><input type="checkbox" id="p8"><label for="p8">Insect repellent</label></li>
+                    <li><input type="checkbox" id="p9"><label for="p9">Sunglasses & hat</label></li>
+                    <li><input type="checkbox" id="p10"><label for="p10">Reusable water bottle</label></li>
+                    <li><input type="checkbox" id="p11"><label for="p11">Personal medications</label></li>
+                    <li><input type="checkbox" id="p12"><label for="p12">Phone charger & power bank</label></li>
+
+                    <li class="category">Nice to Have</li>
+                    <li><input type="checkbox" id="p13"><label for="p13">Camera (for sunrise / sea of clouds)</label></li>
+                    <li><input type="checkbox" id="p14"><label for="p14">Snacks for the road</label></li>
+                    <li><input type="checkbox" id="p15"><label for="p15">Bluetooth speaker</label></li>
+                    <li><input type="checkbox" id="p16"><label for="p16">Card games / entertainment</label></li>
+                    <li><input type="checkbox" id="p17"><label for="p17">Small umbrella</label></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Budget -->
+        <div class="card" style="margin-bottom: 25px;">
+            <h2>&#128176; Estimated Budget (5 People)</h2>
+            <table class="budget-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Estimated Cost</th>
+                        <th>Per Person</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&#9981; Gas (round trip ~700 km)</td>
+                        <td>~2,500 THB</td>
+                        <td>~500 THB</td>
+                        <td>Depends on vehicle</td>
+                    </tr>
+                    <tr>
+                        <td>&#127976; Blue Sky Resort (2 nights)</td>
+                        <td>~4,000-6,000 THB</td>
+                        <td>~800-1,200 THB</td>
+                        <td>Duplex villa, check rates</td>
+                    </tr>
+                    <tr>
+                        <td>&#127976; Midway Hotel (if used)</td>
+                        <td>~1,500-2,500 THB</td>
+                        <td>~300-500 THB</td>
+                        <td>Optional, 1-2 nights</td>
+                    </tr>
+                    <tr>
+                        <td>&#127860; Food (3-4 days)</td>
+                        <td>~6,000-8,000 THB</td>
+                        <td>~1,200-1,600 THB</td>
+                        <td>~400 THB/person/day</td>
+                    </tr>
+                    <tr>
+                        <td>&#127903; Activities & Entrance Fees</td>
+                        <td>~1,000-2,000 THB</td>
+                        <td>~200-400 THB</td>
+                        <td>Temple, wind farm tram, etc.</td>
+                    </tr>
+                    <tr>
+                        <td>&#128663; Tolls & Parking</td>
+                        <td>~500 THB</td>
+                        <td>~100 THB</td>
+                        <td>Highway tolls</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Total Estimate</td>
+                        <td>~15,500-21,500 THB</td>
+                        <td>~3,100-4,300 THB</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="budget-note">* Estimates based on typical prices. Actual costs may vary. Hotel rates should be confirmed at time of booking.</p>
+
+            <div class="highlight-box">
+                <strong>&#128161; Budget Tip:</strong> Per person cost is roughly 3,000-4,500 THB for the entire trip (3-4 days), making this a very affordable getaway for 5 people sharing costs!
+            </div>
+        </div>
+
+        <!-- Driving Tips -->
+        <div class="card" style="margin-bottom: 25px;">
+            <h2>&#128663; Driving Tips</h2>
+            <div class="grid" style="margin-bottom: 0;">
+                <div>
+                    <h3 style="color: var(--forest-green); margin-bottom: 10px;">Route Tips</h3>
+                    <ul style="padding-left: 20px; line-height: 2; font-size: 0.95em;">
+                        <li>Leave Rangsit by <strong>6:00 AM</strong> to avoid Bangkok traffic</li>
+                        <li>Highway 1 north is the main route &mdash; straightforward</li>
+                        <li>The last stretch into Khao Kho has winding mountain roads</li>
+                        <li>Download Google Maps offline before departure</li>
+                        <li>Fill up gas before entering the mountain area</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: var(--forest-green); margin-bottom: 10px;">Safety</h3>
+                    <ul style="padding-left: 20px; line-height: 2; font-size: 0.95em;">
+                        <li>Rotate drivers on long stretches</li>
+                        <li>Mountain roads can be foggy in the morning</li>
+                        <li>Watch for motorcycles on mountain curves</li>
+                        <li>Keep headlights on in the mountains</li>
+                        <li>April rain showers can make roads slippery</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Info -->
+        <div class="emergency-card">
+            <h2>&#128680; Emergency Contacts</h2>
+            <div class="emergency-grid">
+                <div class="emergency-item">
+                    <div class="label">Emergency (Thailand)</div>
+                    <div class="value">191</div>
+                </div>
+                <div class="emergency-item">
+                    <div class="label">Tourist Police</div>
+                    <div class="value">1155</div>
+                </div>
+                <div class="emergency-item">
+                    <div class="label">Ambulance</div>
+                    <div class="value">1669</div>
+                </div>
+                <div class="emergency-item">
+                    <div class="label">Highway Police</div>
+                    <div class="value">1193</div>
+                </div>
+                <div class="emergency-item">
+                    <div class="label">Phetchabun Hospital</div>
+                    <div class="value">056-717-600</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>Khao Kho Mountain Escape 2026 &bull; 5 Travelers &bull; April 22, 2026</p>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('navMenu').classList.toggle('mobile-open');
+        }
+    </script>
+
+</body>
+
+</html>

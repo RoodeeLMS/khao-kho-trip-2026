@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotels - Khao Kho Trip 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest-green: #2D6A4F;
+            --mist-teal: #52B788;
+            --deep-forest: #1B4332;
+            --cloud-white: #F0FFF4;
+            --soft-green: #D8F3DC;
+            --mountain-dark: #2D3748;
+            --sunset-gold: #F59E0B;
+            --warm-orange: #ED8936;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F0FFF4 0%, #E6FFFA 50%, #F0FFF4 100%);
+            min-height: 100vh;
+            color: var(--mountain-dark);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 100%);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .navbar-brand {
+            color: var(--mist-teal);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 3px;
+        }
+
+        .navbar-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: 0.3s;
+            font-size: 0.85em;
+        }
+
+        .navbar-item:hover {
+            background: rgba(82, 183, 136, 0.2);
+            color: var(--mist-teal);
+        }
+
+        .navbar-item.active {
+            background: linear-gradient(135deg, var(--forest-green), var(--mist-teal));
+            color: white;
+            font-weight: bold;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 100%);
+                padding: 10px 0;
+            }
+            .navbar-menu.mobile-open { display: flex; }
+            .navbar-item {
+                padding: 12px 20px;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .menu-toggle { display: block; }
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 50%, var(--forest-green) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hotel Card */
+        .hotel-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .hotel-card:hover {
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .hotel-banner {
+            padding: 25px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .hotel-banner.primary {
+            background: linear-gradient(135deg, var(--forest-green), var(--mist-teal));
+        }
+
+        .hotel-banner.midway {
+            background: linear-gradient(135deg, #92400E, var(--sunset-gold));
+        }
+
+        .hotel-banner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6em;
+        }
+
+        .hotel-banner .hotel-type {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .hotel-body {
+            padding: 30px;
+        }
+
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .hotel-grid { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 1.8rem; }
+        }
+
+        .hotel-section h3 {
+            color: var(--forest-green);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--soft-green);
+            padding-bottom: 8px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95em;
+        }
+
+        .info-table td:first-child {
+            font-weight: 600;
+            color: var(--forest-green);
+            width: 40%;
+        }
+
+        .amenity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--cloud-white);
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .highlight-box {
+            background: var(--soft-green);
+            border-left: 4px solid var(--forest-green);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+        }
+
+        .highlight-box strong {
+            color: var(--forest-green);
+        }
+
+        .note-box {
+            background: #FFFBEB;
+            border-left: 4px solid var(--sunset-gold);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+        }
+
+        .note-box strong {
+            color: #92400E;
+        }
+
+        .booking-status {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-booked {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-optional {
+            background: #EDE9FE;
+            color: #5B21B6;
+        }
+
+        /* Nights Summary */
+        .nights-summary {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .nights-summary h2 {
+            color: var(--forest-green);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--mist-teal);
+            padding-bottom: 10px;
+        }
+
+        .nights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .night-card {
+            background: var(--cloud-white);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .night-card.confirmed {
+            border-color: var(--mist-teal);
+        }
+
+        .night-card.optional {
+            border-color: var(--sunset-gold);
+            border-style: dashed;
+        }
+
+        .night-card .night-date {
+            font-weight: 700;
+            color: var(--forest-green);
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .night-card .night-hotel {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .night-card .night-label {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .night-card .night-label.main {
+            background: var(--soft-green);
+            color: var(--forest-green);
+        }
+
+        .night-card .night-label.opt {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .footer {
+            background: var(--deep-forest);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">&#9968; Khao Kho 2026</a>
+            <button class="menu-toggle" onclick="toggleMobileMenu()">&#9776;</button>
+            <div class="navbar-menu" id="navMenu">
+                <a href="index.html" class="navbar-item">Home</a>
+                <a href="itinerary.html" class="navbar-item">Itinerary</a>
+                <a href="hotels.html" class="navbar-item active">Hotels</a>
+                <a href="planning.html" class="navbar-item">Planning</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>&#127976; Accommodations</h1>
+        <p>Where we're staying on our Khao Kho road trip</p>
+    </div>
+
+    <div class="container">
+
+        <!-- Nights Summary -->
+        <div class="nights-summary">
+            <h2>&#128197; Nights Overview</h2>
+            <div class="nights-grid">
+                <div class="night-card optional">
+                    <div class="night-date">Apr 22 (Wed)</div>
+                    <div class="night-hotel">Midway Stop</div>
+                    <span class="night-label opt">Optional</span>
+                </div>
+                <div class="night-card confirmed">
+                    <div class="night-date">Apr 22 or 23</div>
+                    <div class="night-hotel">Blue Sky Resort</div>
+                    <span class="night-label main">Main Stay</span>
+                </div>
+                <div class="night-card confirmed">
+                    <div class="night-date">Apr 23</div>
+                    <div class="night-hotel">Blue Sky Resort</div>
+                    <span class="night-label main">Main Stay</span>
+                </div>
+                <div class="night-card optional">
+                    <div class="night-date">Apr 24 (Fri)</div>
+                    <div class="night-hotel">Midway Stop</div>
+                    <span class="night-label opt">Optional</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Hotel: Blue Sky Resort -->
+        <div class="hotel-card">
+            <div class="hotel-banner primary">
+                <div>
+                    <h2>The Blue Sky Resort @ Khao Kho</h2>
+                    <p>Main Accommodation &mdash; 1-2 Nights</p>
+                </div>
+                <span class="hotel-type">&#11088; 4-Star Resort</span>
+            </div>
+            <div class="hotel-body">
+                <div class="hotel-grid">
+                    <div class="hotel-section">
+                        <h3>&#128205; Details</h3>
+                        <table class="info-table">
+                            <tr><td>Address</td><td>96 Moo 5, T. Campson, A. Khao Kho, Phetchabun 67280</td></tr>
+                            <tr><td>Style</td><td>European castle-style mountain resort</td></tr>
+                            <tr><td>Room Type</td><td>Duplex villa (2-level, separate living &amp; bedroom)</td></tr>
+                            <tr><td>Guests</td><td>5 people</td></tr>
+                            <tr><td>Check-in</td><td>TBD</td></tr>
+                            <tr><td>Check-out</td><td>TBD</td></tr>
+                            <tr><td>Booking</td><td><span class="booking-status status-pending">Pending</span></td></tr>
+                        </table>
+                    </div>
+                    <div class="hotel-section">
+                        <h3>&#127775; Amenities</h3>
+                        <div class="amenity-grid">
+                            <div class="amenity-item">&#127946; Outdoor Pool</div>
+                            <div class="amenity-item">&#127860; Restaurant (250 seats)</div>
+                            <div class="amenity-item">&#127796; Flower Garden</div>
+                            <div class="amenity-item">&#127795; Hedge Maze</div>
+                            <div class="amenity-item">&#128717; Room Service</div>
+                            <div class="amenity-item">&#128684; 24h Front Desk</div>
+                            <div class="amenity-item">&#127968; Duplex Villas</div>
+                            <div class="amenity-item">&#9968; Mountain Views</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 20px;">
+                    <strong>&#128161; Why Blue Sky:</strong> The duplex-style villas are perfect for a group of 5, with separate living areas and bedrooms spread across two levels. The resort sits in the heart of the Khao Kho mountains with its own gardens, maze, and stunning views.
+                </div>
+
+                <div class="note-box">
+                    <strong>&#128221; To Do:</strong> Book the resort! Check availability for April 22-24, 2026. Consider booking a duplex villa that can comfortably fit 5 guests, or two rooms if needed.
+                </div>
+            </div>
+        </div>
+
+        <!-- Midway Hotel Option -->
+        <div class="hotel-card">
+            <div class="hotel-banner midway">
+                <div>
+                    <h2>Midway Stop &mdash; Nakhon Sawan Area</h2>
+                    <p>Optional overnight stop &mdash; Way there &amp; way back</p>
+                </div>
+                <span class="hotel-type">&#128161; Optional</span>
+            </div>
+            <div class="hotel-body">
+                <div class="hotel-grid">
+                    <div class="hotel-section">
+                        <h3>&#128205; Why Nakhon Sawan?</h3>
+                        <table class="info-table">
+                            <tr><td>Location</td><td>~2.5 hours from Rangsit (halfway)</td></tr>
+                            <tr><td>To Khao Kho</td><td>~2.5-3 hours remaining</td></tr>
+                            <tr><td>When</td><td>Night of Apr 22 (going) and/or Apr 24 (returning)</td></tr>
+                            <tr><td>Booking</td><td><span class="booking-status status-optional">TBD</span></td></tr>
+                        </table>
+                        <p style="margin-top: 15px; font-size: 0.9em; color: #555;">Nakhon Sawan is a major city at the halfway point with plenty of hotel options, restaurants, and gas stations. A good place to break up the 5-hour drive.</p>
+                    </div>
+                    <div class="hotel-section">
+                        <h3>&#128269; What to Look For</h3>
+                        <ul style="padding-left: 20px; line-height: 2; font-size: 0.95em;">
+                            <li>Budget-friendly hotel for 1 night</li>
+                            <li>Near Highway 1 for easy access</li>
+                            <li>Parking for the car</li>
+                            <li>Rooms for 5 people (2-3 rooms)</li>
+                            <li>Close to restaurants for dinner/breakfast</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-box">
+                    <strong>&#128221; Decision Needed:</strong> Do we want to stay midway on the way there, on the way back, both, or neither? This depends on how early we want to depart and how tired the group is after driving.
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Checklist -->
+        <div class="hotel-card">
+            <div class="hotel-body">
+                <h3 style="color: var(--forest-green); font-family: 'Playfair Display', serif; font-size: 1.3em; margin-bottom: 15px; border-bottom: 3px solid var(--mist-teal); padding-bottom: 10px;">&#9989; Booking Checklist</h3>
+                <div style="line-height: 2.2; font-size: 0.95em;">
+                    <label style="display: block; cursor: pointer;"><input type="checkbox"> Book Blue Sky Resort (check duplex villa availability for 5 guests)</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox"> Confirm dates: Apr 22-24 (or 23-24 if staying midway first)</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox"> Decide on midway stop (going)</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox"> Decide on midway stop (returning)</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox"> Book midway hotel if needed (Nakhon Sawan area)</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox"> Confirm total budget for accommodations</label>
+                    <label style="display: block; cursor: pointer;"><input type="checkbox"> Share booking confirmations with the group</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>Khao Kho Mountain Escape 2026 &bull; 5 Travelers &bull; April 22, 2026</p>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('navMenu').classList.toggle('mobile-open');
+        }
+    </script>
+
+</body>
+
+</html>

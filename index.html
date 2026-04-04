@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khao Kho Trip 2026 - Mountain Escape</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest-green: #2D6A4F;
+            --mist-teal: #52B788;
+            --deep-forest: #1B4332;
+            --cloud-white: #F0FFF4;
+            --soft-green: #D8F3DC;
+            --mountain-dark: #2D3748;
+            --sunset-gold: #F59E0B;
+            --warm-orange: #ED8936;
+            --sky-blue: #63B3ED;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F0FFF4 0%, #E6FFFA 50%, #F0FFF4 100%);
+            min-height: 100vh;
+            color: var(--mountain-dark);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 100%);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .navbar-brand {
+            color: var(--mist-teal);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .navbar-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: 0.3s;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+
+        .navbar-item:hover {
+            background: rgba(82, 183, 136, 0.2);
+            color: var(--mist-teal);
+        }
+
+        .navbar-item.active {
+            background: linear-gradient(135deg, var(--forest-green), var(--mist-teal));
+            color: white;
+            font-weight: bold;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: 0;
+                background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 100%);
+                padding: 10px 0;
+            }
+            .navbar-menu.mobile-open { display: flex; }
+            .navbar-item {
+                padding: 12px 20px;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                font-size: 0.95em;
+            }
+            .menu-toggle { display: block; }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 50%, var(--forest-green) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%232D6A4F' fill-opacity='0.1' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,218.7C672,235,768,245,864,234.7C960,224,1056,192,1152,181.3C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .hero .trip-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--sunset-gold), var(--warm-orange));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--mist-teal);
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Countdown */
+        .countdown-section {
+            background: linear-gradient(135deg, #1B4332 0%, #1a3a2a 50%, #264d3b 100%);
+            padding: 25px 20px;
+        }
+
+        .countdown-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .countdown-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .countdown-header h2 {
+            color: var(--mist-teal);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .countdown-header .sub {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9em;
+        }
+
+        .countdown-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .countdown-event { color: white; }
+
+        .countdown-event .event-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--forest-green), var(--mist-teal));
+        }
+
+        .countdown-event .event-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .countdown-event .event-details {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .countdown-event .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 4px 0;
+        }
+
+        .countdown-timer {
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .timer-display {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .timer-unit {
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            padding: 12px 8px;
+            min-width: 55px;
+        }
+
+        .timer-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--mist-teal);
+            line-height: 1;
+        }
+
+        .timer-label {
+            font-size: 0.65em;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .countdown-status {
+            font-size: 0.85em;
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            background: rgba(82, 183, 136, 0.2);
+            color: #52B788;
+        }
+
+        @media (max-width: 700px) {
+            .countdown-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .countdown-event .detail-row { justify-content: center; }
+            .timer-unit { min-width: 48px; padding: 10px 6px; }
+            .timer-value { font-size: 1.5em; }
+        }
+
+        /* Container & Cards */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: var(--forest-green);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            border-bottom: 3px solid var(--mist-teal);
+            padding-bottom: 10px;
+        }
+
+        .card-content {
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .highlight-box {
+            background: var(--soft-green);
+            border-left: 4px solid var(--forest-green);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+        }
+
+        .highlight-box strong {
+            color: var(--forest-green);
+        }
+
+        /* Info Table */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .info-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-table td:first-child {
+            font-weight: 600;
+            color: var(--forest-green);
+            width: 40%;
+        }
+
+        /* Quick Links */
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quick-link {
+            background: var(--cloud-white);
+            padding: 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--forest-green);
+            border-left: 4px solid var(--mist-teal);
+            transition: 0.3s;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .quick-link:hover {
+            background: white;
+            transform: translateX(5px);
+            border-left-color: var(--forest-green);
+        }
+
+        .quick-link h3 {
+            color: var(--forest-green);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 5px;
+        }
+
+        .quick-link p {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* Attractions Grid */
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .attraction-card {
+            background: linear-gradient(135deg, var(--cloud-white) 0%, white 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .attraction-card h4 {
+            color: var(--forest-green);
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .attraction-card p {
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .attraction-tag {
+            display: inline-block;
+            background: var(--soft-green);
+            color: var(--forest-green);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* Weather Banner */
+        .weather-banner {
+            background: linear-gradient(135deg, #FEF3C7, #FFFBEB);
+            border: 1px solid #F59E0B;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .weather-banner .icon {
+            font-size: 2.5em;
+        }
+
+        .weather-banner .info h4 {
+            color: #92400E;
+            margin-bottom: 5px;
+        }
+
+        .weather-banner .info p {
+            color: #78350F;
+            font-size: 0.9em;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--deep-forest);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .stats-row { gap: 20px; }
+            .stat-value { font-size: 1.5em; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">&#9968; Khao Kho 2026</a>
+            <button class="menu-toggle" onclick="toggleMobileMenu()">&#9776;</button>
+            <div class="navbar-menu" id="navMenu">
+                <a href="index.html" class="navbar-item active">Home</a>
+                <a href="itinerary.html" class="navbar-item">Itinerary</a>
+                <a href="hotels.html" class="navbar-item">Hotels</a>
+                <a href="planning.html" class="navbar-item">Planning</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Khao Kho Mountain Escape</h1>
+        <p class="subtitle">Sea of Clouds, Temples & Misty Mountains</p>
+        <div class="trip-badge">April 2026 Road Trip</div>
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Travelers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">~350</div>
+                <div class="stat-label">km from Rangsit</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">~5h</div>
+                <div class="stat-label">Drive Time</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">800m+</div>
+                <div class="stat-label">Elevation</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Countdown -->
+    <section class="countdown-section">
+        <div class="countdown-container">
+            <div class="countdown-header">
+                <h2>Departure Countdown</h2>
+                <p class="sub">Rangsit to Khao Kho, Phetchabun</p>
+            </div>
+            <div class="countdown-card">
+                <div class="countdown-event">
+                    <span class="event-type">Road Trip</span>
+                    <div class="event-title">Khao Kho Mountain Escape</div>
+                    <div class="event-details">
+                        <div class="detail-row">&#128205; From: Rangsit, Bangkok</div>
+                        <div class="detail-row">&#9968; To: Khao Kho, Phetchabun</div>
+                        <div class="detail-row">&#128197; April 22, 2026 (Wednesday)</div>
+                        <div class="detail-row">&#128101; 5 travelers</div>
+                    </div>
+                </div>
+                <div class="countdown-timer">
+                    <div class="timer-display">
+                        <div class="timer-unit">
+                            <div class="timer-value" id="days">--</div>
+                            <div class="timer-label">Days</div>
+                        </div>
+                        <div class="timer-unit">
+                            <div class="timer-value" id="hours">--</div>
+                            <div class="timer-label">Hours</div>
+                        </div>
+                        <div class="timer-unit">
+                            <div class="timer-value" id="mins">--</div>
+                            <div class="timer-label">Mins</div>
+                        </div>
+                        <div class="timer-unit">
+                            <div class="timer-value" id="secs">--</div>
+                            <div class="timer-label">Secs</div>
+                        </div>
+                    </div>
+                    <span class="countdown-status" id="status">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <!-- Trip Overview -->
+        <div class="grid">
+            <div class="card" style="grid-column: 1/-1;">
+                <h2>&#9968; Trip Overview</h2>
+                <div class="card-content">
+                    <p>A road trip from <strong>Rangsit</strong> to <strong>Khao Kho</strong> (&#3648;&#3586;&#3634;&#3588;&#3657;&#3629;), the "Switzerland of Thailand" in Phetchabun Province. Known for its misty mountain views, sea of clouds at sunrise, and cool breezes, Khao Kho sits at 800+ meters elevation and offers a refreshing escape from Bangkok's heat.</p>
+
+                    <div class="highlight-box">
+                        <strong>&#128161; Midway Stop Option:</strong> The drive is approximately 5 hours. We may stay overnight midway (around Nakhon Sawan area, ~2.5 hours from Rangsit) on the way there and/or on the way back.
+                    </div>
+
+                    <table class="info-table">
+                        <tr><td>&#128197; Departure</td><td>April 22, 2026 (Wednesday)</td></tr>
+                        <tr><td>&#128205; From</td><td>Rangsit, Pathum Thani</td></tr>
+                        <tr><td>&#9968; Destination</td><td>Khao Kho, Phetchabun Province</td></tr>
+                        <tr><td>&#128101; Group Size</td><td>5 people</td></tr>
+                        <tr><td>&#127976; Main Hotel</td><td>The Blue Sky Resort @ Khao Kho</td></tr>
+                        <tr><td>&#128663; Distance</td><td>~350 km (approx. 5 hours drive)</td></tr>
+                        <tr><td>&#127777; Weather (April)</td><td>Hot days ~33&deg;C, cooler nights ~22&deg;C, possible rain</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Alert -->
+        <div class="weather-banner">
+            <div class="icon">&#9728;&#65039;&#127326;</div>
+            <div class="info">
+                <h4>April Weather in Khao Kho</h4>
+                <p>Expect warm days around 33&deg;C with cooler mountain nights at ~22&deg;C. April marks the start of the rainy season, so pack a rain jacket. The elevation provides relief from the heat compared to Bangkok.</p>
+            </div>
+        </div>
+
+        <!-- Top Attractions -->
+        <div class="grid">
+            <div class="card" style="grid-column: 1/-1;">
+                <h2>&#127775; Top Attractions</h2>
+                <div class="card-content">
+                    <div class="attractions-grid">
+                        <div class="attraction-card">
+                            <span class="attraction-tag">Temple</span>
+                            <h4>Wat Pha Sorn Kaew</h4>
+                            <p>Stunning hilltop temple with 5 giant white Buddha statues surrounded by mountains and colorful mosaic pagodas. One of Thailand's most beautiful temples.</p>
+                        </div>
+                        <div class="attraction-card">
+                            <span class="attraction-tag">Wind Farm</span>
+                            <h4>Khao Kho Wind Farm</h4>
+                            <p>100-meter tall windmills with strawberry and cabbage farms below. Take a 60 THB tram ride for a close-up view of the turbines.</p>
+                        </div>
+                        <div class="attraction-card">
+                            <span class="attraction-tag">Viewpoint</span>
+                            <h4>Phu Tub Berk</h4>
+                            <p>At 1,768m elevation, this is the prime spot for camping, stargazing, and watching the sunrise over a sea of clouds.</p>
+                        </div>
+                        <div class="attraction-card">
+                            <span class="attraction-tag">Viewpoint</span>
+                            <h4>Khao Kho Post Office</h4>
+                            <p>Famous sunrise viewpoint with panoramic sea of clouds views. Has a camping area for overnight stays.</p>
+                        </div>
+                        <div class="attraction-card">
+                            <span class="attraction-tag">Nature</span>
+                            <h4>Sri Dit Waterfall</h4>
+                            <p>A lovely waterfall with shaded walking paths and historical relics scattered along the trail.</p>
+                        </div>
+                        <div class="attraction-card">
+                            <span class="attraction-tag">Garden</span>
+                            <h4>Khao Kho Flower Terrace</h4>
+                            <p>Cascading terraces of flower fields with a skywalk for aerial views and a cozy mountain cafe.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Route Info -->
+        <div class="grid">
+            <div class="card">
+                <h2>&#128663; Driving Route</h2>
+                <div class="card-content">
+                    <p><strong>Rangsit &#8594; Khao Kho</strong></p>
+                    <ol style="margin: 15px 0; padding-left: 20px; line-height: 2;">
+                        <li>Start from Rangsit, head north on <strong>Highway 1</strong> (Phahonyothin Rd)</li>
+                        <li>Continue to <strong>Nakhon Sawan</strong> (~2.5 hrs)</li>
+                        <li>Take <strong>Highway 117</strong> toward Phitsanulok</li>
+                        <li>Then <strong>Highway 12</strong> (Phitsanulok-Lom Sak)</li>
+                        <li>Follow signs to <strong>Khao Kho</strong></li>
+                    </ol>
+                    <div class="highlight-box">
+                        <strong>Midway Option:</strong> Nakhon Sawan (~halfway) is a good spot for an overnight rest stop if the group wants to break up the drive.
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>&#127776; Blue Sky Resort</h2>
+                <div class="card-content">
+                    <p><strong>The Blue Sky Resort @ Khao Kho</strong></p>
+                    <p style="margin: 10px 0;">A 4-star mountain resort with European-inspired design nestled in the Khao Kho mountains.</p>
+                    <table class="info-table">
+                        <tr><td>&#127968; Style</td><td>European castle-style villas</td></tr>
+                        <tr><td>&#127796; Gardens</td><td>Flower garden, hedge maze</td></tr>
+                        <tr><td>&#127946; Pool</td><td>Outdoor swimming pool</td></tr>
+                        <tr><td>&#127860; Dining</td><td>250-seat restaurant</td></tr>
+                        <tr><td>&#128205; Address</td><td>96 Moo 5, T. Campson, A. Khao Kho, Phetchabun 67280</td></tr>
+                    </table>
+                    <div class="highlight-box">
+                        <strong>Duplex Villas:</strong> Spacious two-level villas with separate living areas &mdash; great for a group of 5.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="card" style="margin-bottom: 40px;">
+            <h2>&#128196; Quick Navigation</h2>
+            <div class="quick-links-grid">
+                <a href="itinerary.html" class="quick-link">
+                    <h3>&#128197; Itinerary</h3>
+                    <p>Day-by-day plan with activities and timing</p>
+                </a>
+                <a href="hotels.html" class="quick-link">
+                    <h3>&#127976; Hotels</h3>
+                    <p>Blue Sky Resort details and midway options</p>
+                </a>
+                <a href="planning.html" class="quick-link">
+                    <h3>&#9989; Planning</h3>
+                    <p>Packing list, budget, and trip checklist</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Khao Kho Mountain Escape 2026 &bull; 5 Travelers &bull; April 22, 2026</p>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('navMenu').classList.toggle('mobile-open');
+        }
+
+        function updateCountdown() {
+            const departure = new Date('2026-04-22T07:00:00+07:00');
+            const now = new Date();
+            const diff = departure - now;
+
+            if (diff <= 0) {
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('mins').textContent = '0';
+                document.getElementById('secs').textContent = '0';
+                document.getElementById('status').textContent = 'Trip time!';
+                document.getElementById('status').style.background = 'rgba(245, 158, 11, 0.2)';
+                document.getElementById('status').style.color = '#F59E0B';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('mins').textContent = mins;
+            document.getElementById('secs').textContent = secs;
+            document.getElementById('status').textContent = 'Counting down...';
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+
+</body>
+
+</html>

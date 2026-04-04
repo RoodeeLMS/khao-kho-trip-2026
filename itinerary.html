@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itinerary - Khao Kho Trip 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest-green: #2D6A4F;
+            --mist-teal: #52B788;
+            --deep-forest: #1B4332;
+            --cloud-white: #F0FFF4;
+            --soft-green: #D8F3DC;
+            --mountain-dark: #2D3748;
+            --sunset-gold: #F59E0B;
+            --warm-orange: #ED8936;
+            --sky-blue: #63B3ED;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F0FFF4 0%, #E6FFFA 50%, #F0FFF4 100%);
+            min-height: 100vh;
+            color: var(--mountain-dark);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 100%);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .navbar-brand {
+            color: var(--mist-teal);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .navbar-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: 0.3s;
+            font-size: 0.85em;
+        }
+
+        .navbar-item:hover {
+            background: rgba(82, 183, 136, 0.2);
+            color: var(--mist-teal);
+        }
+
+        .navbar-item.active {
+            background: linear-gradient(135deg, var(--forest-green), var(--mist-teal));
+            color: white;
+            font-weight: bold;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 100%);
+                padding: 10px 0;
+            }
+            .navbar-menu.mobile-open { display: flex; }
+            .navbar-item {
+                padding: 12px 20px;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .menu-toggle { display: block; }
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--deep-forest) 0%, #1a3a2a 50%, var(--forest-green) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Route Overview */
+        .route-overview {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .route-step {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .route-step .location {
+            font-weight: 700;
+            color: var(--forest-green);
+            font-size: 1.1em;
+        }
+
+        .route-step .detail {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .route-arrow {
+            display: flex;
+            align-items: center;
+            color: var(--mist-teal);
+            font-size: 1.5em;
+        }
+
+        /* Day Cards */
+        .day-card {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .day-card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, var(--forest-green), var(--mist-teal));
+            color: white;
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .day-header:hover {
+            filter: brightness(1.05);
+        }
+
+        .day-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4em;
+        }
+
+        .day-header .day-date {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .day-header .toggle-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .day-header.open .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .day-body {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        .day-body.open {
+            padding: 25px;
+            max-height: 2000px;
+        }
+
+        /* Timeline items within day */
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 35px;
+            top: 30px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--soft-green);
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .time-badge {
+            background: var(--soft-green);
+            color: var(--forest-green);
+            font-weight: 700;
+            font-size: 0.85em;
+            padding: 6px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+            height: fit-content;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .timeline-content h4 {
+            color: var(--forest-green);
+            margin-bottom: 5px;
+        }
+
+        .timeline-content p {
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .activity-tag {
+            display: inline-block;
+            background: #EDF2F7;
+            color: #4A5568;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            margin-top: 5px;
+        }
+
+        .activity-tag.drive { background: #DBEAFE; color: #1E40AF; }
+        .activity-tag.food { background: #FEF3C7; color: #92400E; }
+        .activity-tag.sight { background: #D1FAE5; color: #065F46; }
+        .activity-tag.hotel { background: #EDE9FE; color: #5B21B6; }
+        .activity-tag.nature { background: #CCFBF1; color: #134E4A; }
+
+        .note-box {
+            background: #FFFBEB;
+            border-left: 4px solid var(--sunset-gold);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .note-box strong {
+            color: #92400E;
+        }
+
+        .option-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            color: #92400E;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .footer {
+            background: var(--deep-forest);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 1.8rem; }
+            .route-arrow { display: none; }
+            .timeline-item { flex-direction: column; gap: 8px; }
+            .timeline-item::before { display: none; }
+            .time-badge { align-self: flex-start; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">&#9968; Khao Kho 2026</a>
+            <button class="menu-toggle" onclick="toggleMobileMenu()">&#9776;</button>
+            <div class="navbar-menu" id="navMenu">
+                <a href="index.html" class="navbar-item">Home</a>
+                <a href="itinerary.html" class="navbar-item active">Itinerary</a>
+                <a href="hotels.html" class="navbar-item">Hotels</a>
+                <a href="planning.html" class="navbar-item">Planning</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>&#128197; Trip Itinerary</h1>
+        <p>Day-by-day plan for our Khao Kho adventure</p>
+    </div>
+
+    <div class="container">
+
+        <!-- Route Overview -->
+        <div class="route-overview">
+            <div class="route-step">
+                <div class="location">Rangsit</div>
+                <div class="detail">Starting Point</div>
+            </div>
+            <div class="route-arrow">&#8594;</div>
+            <div class="route-step">
+                <div class="location">Nakhon Sawan</div>
+                <div class="detail">Optional Midway (~2.5 hrs)</div>
+            </div>
+            <div class="route-arrow">&#8594;</div>
+            <div class="route-step">
+                <div class="location">Khao Kho</div>
+                <div class="detail">Destination (~5 hrs total)</div>
+            </div>
+            <div class="route-arrow">&#8594;</div>
+            <div class="route-step">
+                <div class="location">Rangsit</div>
+                <div class="detail">Return Home</div>
+            </div>
+        </div>
+
+        <!-- Day 1 -->
+        <div class="day-card">
+            <div class="day-header open" onclick="toggleDay(this)">
+                <div>
+                    <h2>Day 1 &mdash; Hit the Road</h2>
+                    <span class="day-date">Wednesday, April 22</span>
+                </div>
+                <span class="toggle-icon">&#9660;</span>
+            </div>
+            <div class="day-body open">
+                <div class="timeline-item">
+                    <span class="time-badge">06:00</span>
+                    <div class="timeline-content">
+                        <h4>Depart from Rangsit</h4>
+                        <p>Early start to beat the traffic. Head north on Highway 1 (Phahonyothin Rd). Make sure the car is fueled up and snacks are packed!</p>
+                        <span class="activity-tag drive">&#128663; Driving</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">08:00</span>
+                    <div class="timeline-content">
+                        <h4>Breakfast Stop</h4>
+                        <p>Stop for breakfast at a roadside restaurant or gas station along Highway 1. Stretch your legs!</p>
+                        <span class="activity-tag food">&#127860; Food</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">08:30</span>
+                    <div class="timeline-content">
+                        <h4>Nakhon Sawan Area <span class="option-badge">Decision Point</span></h4>
+                        <p><strong>Option A:</strong> Continue driving straight to Khao Kho (arrive ~11:00)<br>
+                        <strong>Option B:</strong> Stop and explore Nakhon Sawan, check into a hotel, rest, and continue tomorrow morning</p>
+                    </div>
+                </div>
+
+                <div class="note-box">
+                    <strong>&#128161; If continuing to Khao Kho (Option A):</strong>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">11:00</span>
+                    <div class="timeline-content">
+                        <h4>Arrive at Khao Kho</h4>
+                        <p>Check in at <strong>The Blue Sky Resort</strong>. Freshen up and settle into your villa.</p>
+                        <span class="activity-tag hotel">&#127976; Check-in</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">12:00</span>
+                    <div class="timeline-content">
+                        <h4>Lunch at Blue Sky Restaurant</h4>
+                        <p>Enjoy lunch at the resort's 250-seat restaurant with mountain views.</p>
+                        <span class="activity-tag food">&#127860; Food</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">14:00</span>
+                    <div class="timeline-content">
+                        <h4>Explore the Resort</h4>
+                        <p>Wander through the flower garden, hedge maze, and enjoy the pool. The resort grounds are huge with European-style architecture.</p>
+                        <span class="activity-tag nature">&#127796; Leisure</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">16:30</span>
+                    <div class="timeline-content">
+                        <h4>Khao Kho Viewpoint &mdash; Sunset</h4>
+                        <p>Drive to the Khao Kho viewpoint for a panoramic sunset over the mountains and valleys.</p>
+                        <span class="activity-tag sight">&#127775; Sightseeing</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">18:30</span>
+                    <div class="timeline-content">
+                        <h4>Dinner</h4>
+                        <p>Dinner at a local Khao Kho restaurant or back at the resort. Try local Phetchabun dishes!</p>
+                        <span class="activity-tag food">&#127860; Food</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <h2>Day 2 &mdash; Temples & Mountains</h2>
+                    <span class="day-date">Thursday, April 23</span>
+                </div>
+                <span class="toggle-icon">&#9660;</span>
+            </div>
+            <div class="day-body">
+                <div class="timeline-item">
+                    <span class="time-badge">05:00</span>
+                    <div class="timeline-content">
+                        <h4>Sunrise at Phu Tub Berk <span class="option-badge">Optional</span></h4>
+                        <p>Wake up early and drive to Phu Tub Berk (1,768m) for a spectacular sunrise over a sea of clouds. Worth the early wake-up!</p>
+                        <span class="activity-tag sight">&#127775; Sunrise</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">07:30</span>
+                    <div class="timeline-content">
+                        <h4>Breakfast</h4>
+                        <p>Return to the resort or find a local cafe for breakfast.</p>
+                        <span class="activity-tag food">&#127860; Food</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">09:00</span>
+                    <div class="timeline-content">
+                        <h4>Wat Pha Sorn Kaew</h4>
+                        <p>Visit the iconic hilltop temple with 5 giant white Buddha statues and stunning mosaic art. Allow 1.5-2 hours to explore the grounds. Wear comfortable shoes for the steps!</p>
+                        <span class="activity-tag sight">&#127775; Must-See</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">11:30</span>
+                    <div class="timeline-content">
+                        <h4>Khao Kho Wind Farm</h4>
+                        <p>See the massive 100m windmills up close. Take the tram ride (60 THB) and visit the strawberry farms below. Great photo spot!</p>
+                        <span class="activity-tag sight">&#127775; Sightseeing</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">12:30</span>
+                    <div class="timeline-content">
+                        <h4>Lunch</h4>
+                        <p>Lunch at a mountain restaurant near the wind farm area. Fresh vegetables from local farms!</p>
+                        <span class="activity-tag food">&#127860; Food</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">14:00</span>
+                    <div class="timeline-content">
+                        <h4>Khao Kho Flower Terrace</h4>
+                        <p>Walk through cascading flower terraces, take the skywalk for aerial views, and relax at the mountain cafe.</p>
+                        <span class="activity-tag nature">&#127796; Nature</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">15:30</span>
+                    <div class="timeline-content">
+                        <h4>Weapon Museum <span class="option-badge">Optional</span></h4>
+                        <p>Learn about Khao Kho's Cold War history. The area saw significant conflict and this museum tells the story of reconciliation.</p>
+                        <span class="activity-tag sight">&#127775; History</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">17:00</span>
+                    <div class="timeline-content">
+                        <h4>Resort Pool & Relax</h4>
+                        <p>Head back to Blue Sky Resort. Enjoy the pool, gardens, or just relax with mountain views.</p>
+                        <span class="activity-tag nature">&#127796; Leisure</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">19:00</span>
+                    <div class="timeline-content">
+                        <h4>Dinner</h4>
+                        <p>Group dinner at the resort or a recommended local restaurant.</p>
+                        <span class="activity-tag food">&#127860; Food</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <h2>Day 3 &mdash; Waterfall & Return</h2>
+                    <span class="day-date">Friday, April 24</span>
+                </div>
+                <span class="toggle-icon">&#9660;</span>
+            </div>
+            <div class="day-body">
+                <div class="timeline-item">
+                    <span class="time-badge">07:00</span>
+                    <div class="timeline-content">
+                        <h4>Breakfast & Check-out</h4>
+                        <p>Enjoy a final breakfast at the resort. Pack up and check out of Blue Sky Resort.</p>
+                        <span class="activity-tag hotel">&#127976; Check-out</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">08:30</span>
+                    <div class="timeline-content">
+                        <h4>Sri Dit Waterfall</h4>
+                        <p>Visit this lovely waterfall with shaded walking paths. A refreshing morning activity before the drive back.</p>
+                        <span class="activity-tag nature">&#127796; Nature</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">10:00</span>
+                    <div class="timeline-content">
+                        <h4>Depart Khao Kho</h4>
+                        <p>Begin the drive back toward Rangsit via the same route. Stop for snacks and fuel.</p>
+                        <span class="activity-tag drive">&#128663; Driving</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">12:30</span>
+                    <div class="timeline-content">
+                        <h4>Lunch Stop <span class="option-badge">Decision Point</span></h4>
+                        <p><strong>Option A:</strong> Quick lunch stop along the highway, continue to Rangsit (arrive ~15:00)<br>
+                        <strong>Option B:</strong> Stop for lunch in Nakhon Sawan area, check into a hotel, and drive back to Rangsit the next morning</p>
+                        <span class="activity-tag food">&#127860; Food</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">15:00</span>
+                    <div class="timeline-content">
+                        <h4>Arrive Home (Option A)</h4>
+                        <p>Back in Rangsit! Unpack, rest, and reminisce about the mountain views.</p>
+                    </div>
+                </div>
+
+                <div class="note-box">
+                    <strong>&#128161; If staying midway (Option B):</strong> Add a Day 4 for the final 2.5-hour drive from Nakhon Sawan to Rangsit in the morning, arriving fresh and rested.
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 4 (Optional) -->
+        <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)" style="background: linear-gradient(135deg, #92400E, #F59E0B);">
+                <div>
+                    <h2>Day 4 &mdash; Return Day <span class="option-badge" style="background: white; color: #92400E;">If Staying Midway</span></h2>
+                    <span class="day-date">Saturday, April 25 (Optional)</span>
+                </div>
+                <span class="toggle-icon">&#9660;</span>
+            </div>
+            <div class="day-body">
+                <div class="timeline-item">
+                    <span class="time-badge">08:00</span>
+                    <div class="timeline-content">
+                        <h4>Breakfast in Nakhon Sawan</h4>
+                        <p>Enjoy breakfast at the hotel or a local morning market.</p>
+                        <span class="activity-tag food">&#127860; Food</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">09:00</span>
+                    <div class="timeline-content">
+                        <h4>Depart for Rangsit</h4>
+                        <p>Relaxed 2.5-hour drive back to Rangsit. No rush!</p>
+                        <span class="activity-tag drive">&#128663; Driving</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">11:30</span>
+                    <div class="timeline-content">
+                        <h4>Arrive Home</h4>
+                        <p>Back in Rangsit by lunchtime, well-rested from the midway stop. Trip complete!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>Khao Kho Mountain Escape 2026 &bull; 5 Travelers &bull; April 22, 2026</p>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('navMenu').classList.toggle('mobile-open');
+        }
+
+        function toggleDay(header) {
+            header.classList.toggle('open');
+            const body = header.nextElementSibling;
+            body.classList.toggle('open');
+        }
+    </script>
+
+</body>
+
+</html>
